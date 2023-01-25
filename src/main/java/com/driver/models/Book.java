@@ -2,6 +2,9 @@ package com.driver.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 //import lombok.Getter;
 //import lombok.Setter;
 
@@ -11,8 +14,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-//@Getter
-//@Setter
+@Table
+@Data
+@AllArgsConstructor
+
 public class Book {
 
     @Id
