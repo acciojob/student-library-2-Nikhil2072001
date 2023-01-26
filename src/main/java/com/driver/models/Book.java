@@ -3,18 +3,10 @@ package com.driver.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//import lombok.Getter;
-//import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-@Table
-
-
 public class Book {
 
     @Id
@@ -22,6 +14,37 @@ public class Book {
     private int id;
 
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnoreProperties("booksWritten")
+    private Author author;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnoreProperties("books")
+    private Card card;
+
+
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean available;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("book")
+    private List<Transaction> transactions;
+
+    public Book() {
+    }
+
+    public Book(String name, Genre genre, Author author) {
+        this.name = name;
+        this.genre = genre;
+        this.author = author;
+        this.available = true;
+    }
 
     public int getId() {
         return id;
@@ -77,29 +100,5 @@ public class Book {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
-    }
-
-    @Enumerated(EnumType.STRING)
-    private Genre genre;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("booksWritten")
-    private Author author;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("books")
-    private Card card;
-
-
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean available;
-
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("book")
-    private List<Transaction> transactions;
-
-    public Book() {
     }
 }
